@@ -49,6 +49,7 @@ namespace Won
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
+        try{
             string connection = "server=localhost;user id=root;password=;database=mnagementsystem";
             string query = "INSERT INTO user_profile(AssignedRole,Name,UserID,UName,Password,Phone)VALUES('" + this.textBoxRl.Text + "','" + this.textBoxNM.Text + "','" + this.textBoxUID.Text + "','" + this.textBoxUNAME.Text + "','" + this.textBoxPs.Text + "','" + this.textBox4n.Text + "')";
             MySqlConnection conn = new MySqlConnection(connection);
@@ -58,10 +59,37 @@ namespace Won
             dr = cmd.ExecuteReader();
             MessageBox.Show("Successfully saved");
             conn.Close();
+            }
+            catch (MySqlException ex)
+            {
+                if (ex.Number == 2627) // Unique constraint violation error code
+                {
+                    MessageBox.Show("A record with the same unique value already exists.");
+                }
+                else if (ex.Number == 547) // Foreign key constraint violation error code
+                {
+                    MessageBox.Show("The referenced record in the parent table does not exist.");
+                }
+                else if (ex.Number == 515) // Null value constraint violation error code
+                {
+                    MessageBox.Show("A required field is null.");
+                }
+                else
+                {
+                    // Handle other generic SQL exceptions
+                    MessageBox.Show("An error occurred while executing the SQL operation.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle other generic exceptions
+                MessageBox.Show("An unexpected error occurred.");
+            }
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
+        try{
             string connection = "server=localhost;user id=root;password=;database=mnagementsystem";
             string query = "UPDATE user_profile SET AssignedRole = '" + this.textBoxRl.Text + "', Name='" + this.textBoxNM.Text + "', UserID='" + this.textBoxUID.Text + "', UName='" + this.textBoxUNAME.Text + "', Password='" + this.textBoxPs.Text + "', Phone='" + this.textBox4n + "' WHERE UserID='" + this.textBoxUID.Text + "'";
             MySqlConnection conn = new MySqlConnection(connection);
@@ -71,10 +99,37 @@ namespace Won
             dr = cmd.ExecuteReader();
             MessageBox.Show("Successfully updated");
             conn.Close();
+            }
+            catch (MySqlException ex)
+            {
+                if (ex.Number == 2627) // Unique constraint violation error code
+                {
+                    MessageBox.Show("A record with the same unique value already exists.");
+                }
+                else if (ex.Number == 547) // Foreign key constraint violation error code
+                {
+                    MessageBox.Show("The referenced record in the parent table does not exist.");
+                }
+                else if (ex.Number == 515) // Null value constraint violation error code
+                {
+                    MessageBox.Show("A required field is null.");
+                }
+                else
+                {
+                    // Handle other generic SQL exceptions
+                    MessageBox.Show("An error occurred while executing the SQL operation.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle other generic exceptions
+                MessageBox.Show("An unexpected error occurred.");
+            }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+        try{
             string connection = "server=localhost;user id=root;password=;database=mnagementsystem";
             string query = "DELETE FROM user_profile WHERE UserID='" + this.textBoxUID.Text + "'";
             MySqlConnection conn = new MySqlConnection(connection);
@@ -84,6 +139,32 @@ namespace Won
             dr = cmd.ExecuteReader();
             MessageBox.Show("Successfully deleted");
             conn.Close();
+            }
+            catch (MySqlException ex)
+            {
+                if (ex.Number == 2627) // Unique constraint violation error code
+                {
+                    MessageBox.Show("A record with the same unique value already exists.");
+                }
+                else if (ex.Number == 547) // Foreign key constraint violation error code
+                {
+                    MessageBox.Show("The referenced record in the parent table does not exist.");
+                }
+                else if (ex.Number == 515) // Null value constraint violation error code
+                {
+                    MessageBox.Show("A required field is null.");
+                }
+                else
+                {
+                    // Handle other generic SQL exceptions
+                    MessageBox.Show("An error occurred while executing the SQL operation.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle other generic exceptions
+                MessageBox.Show("An unexpected error occurred.");
+            }
         }
 
         private void btnLoadData_Click(object sender, EventArgs e)
