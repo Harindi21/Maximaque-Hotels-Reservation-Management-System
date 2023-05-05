@@ -1,0 +1,171 @@
+﻿using MySql.Data.MySqlClient;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Won
+{
+    public partial class Page2bookings : Form
+    {
+        public Page2bookings()
+        {
+            InitializeComponent();
+        }
+
+        private void Page2bookings_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnBookings_Click(object sender, EventArgs e)
+        {
+            Page2bookings p1 = new Page2bookings();
+            this.Hide();
+            p1.Show();
+        }
+
+        private void btnCustomers_Click(object sender, EventArgs e)
+        {
+            Page3customers p3 = new Page3customers();
+            this.Hide();
+            p3.Show();
+        }
+
+        private void btnRooms_Click(object sender, EventArgs e)
+        {
+            Page4rooms p4 = new Page4rooms();
+            this.Hide();
+            p4.Show();
+        }
+
+        private void btnUsers_Click(object sender, EventArgs e)
+        {
+
+            Page5users p5 = new Page5users();
+            this.Hide();
+            p5.Show();
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string connection = "server=localhost;user id=root;password=;database=mnagementsystem";
+                string query = "INSERT INTO room_customer(RoomID,CustomerId,DepartureTime,ArrivalTime)VALUES('" + this.textBoxRID.Text + "','" + this.textBoxCID.Text + "','" + this.textBoxDT.Text + "','" + this.textBoxAT.Text + "')";
+                MySqlConnection conn = new MySqlConnection(connection);
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                MySqlDataReader dr;
+                conn.Open();
+                dr = cmd.ExecuteReader();
+                MessageBox.Show("Successfully saved");
+                conn.Close();
+            }
+            catch (MySqlException ex)
+            {
+                if (ex.Number == 1452) // Check for the specific error code for foreign key constraint violation
+                {
+                    MessageBox.Show("The RoomID value does not exist in the rooms table."); // Display an error message to the user
+                }
+                else
+                {
+                    MessageBox.Show(ex.Message); // Display a generic error message for any other exceptions
+                }
+            }
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string connection = "server=localhost;user id=root;password=;database=mnagementsystem";
+                string query = "UPDATE room_customer SET RoomID = '" + this.textBoxRID.Text + "', CustomerId='" + this.textBoxCID.Text + "', DepartureTime='" + this.textBoxDT.Text + "', ArrivalTime='" + this.textBoxAT.Text + "' WHERE RoomID='" + this.textBoxRID.Text + "' AND CustomerId'" + this.textBoxCID + "'";
+                MySqlConnection conn = new MySqlConnection(connection);
+                MySqlCommand cmd = new MySqlCommand(query, conn);
+                MySqlDataReader dr;
+                conn.Open();
+                dr = cmd.ExecuteReader();
+                MessageBox.Show("Successfully updated");
+                conn.Close();
+            }
+            catch (MySqlException ex)
+            {
+                if (ex.Number == 1452) // Check for the specific error code for foreign key constraint violation
+                {
+                    MessageBox.Show("The RoomID value does not exist in the rooms table."); // Display an error message to the user
+                }
+                else
+                {
+                    MessageBox.Show(ex.Message); // Display a generic error message for any other exceptions
+                }
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            string connection = "server=localhost;user id=root;password=;database=mnagementsystem";
+            string query = "DELETE FROM room_customer WHERE RoomID='" + this.textBoxRID.Text + "' AND CustomerId='" + this.textBoxCID + "'";
+            MySqlConnection conn = new MySqlConnection(connection);
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+            MySqlDataReader dr;
+            conn.Open();
+            dr = cmd.ExecuteReader();
+            MessageBox.Show("Successfully deleted");
+            conn.Close();
+        }
+
+        private void btnLoadData_Click(object sender, EventArgs e)
+        {
+            string connection = "server=localhost;user id=root;password=;database=mnagementsystem";
+            string query = "SELECT * FROM room_customer";
+            MySqlConnection conn = new MySqlConnection(connection);
+            MySqlCommand cmd = new MySqlCommand(query, conn);
+            MySqlDataAdapter da = new MySqlDataAdapter();
+            da.SelectCommand = cmd;
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            dataGridViewRooms.DataSource = dt;
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Page6Hotel p5 = new Page6Hotel();
+            this.Hide();
+            p5.Show();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Page1 pg = new Page1();
+            this.Hide();
+            pg.Show();
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            HomePage pg = new HomePage();
+            this.Hide();
+            pg.Show();
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
