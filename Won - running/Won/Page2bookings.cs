@@ -108,6 +108,7 @@ namespace Won
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+        try{
             string connection = "server=localhost;user id=root;password=;database=mnagementsystem";
             string query = "DELETE FROM room_customer WHERE RoomID='" + this.textBoxRID.Text + "' AND CustomerId='" + this.textBoxCID + "'";
             MySqlConnection conn = new MySqlConnection(connection);
@@ -117,6 +118,32 @@ namespace Won
             dr = cmd.ExecuteReader();
             MessageBox.Show("Successfully deleted");
             conn.Close();
+            }
+            catch (MySqlException ex)
+            {
+                if (ex.Number == 2627) // Unique constraint violation error code
+                {
+                    MessageBox.Show("A record with the same unique value already exists.");
+                }
+                else if (ex.Number == 547) // Foreign key constraint violation error code
+                {
+                    MessageBox.Show("The referenced record in the parent table does not exist.");
+                }
+                else if (ex.Number == 515) // Null value constraint violation error code
+                {
+                    MessageBox.Show("A required field is null.");
+                }
+                else
+                {
+                    // Handle other generic SQL exceptions
+                    MessageBox.Show("An error occurred while executing the SQL operation.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle other generic exceptions
+                MessageBox.Show("An unexpected error occurred.");
+            }
         }
 
         private void btnLoadData_Click(object sender, EventArgs e)
